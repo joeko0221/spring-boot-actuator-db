@@ -1,0 +1,38 @@
+server:
+  port: 18084
+  
+# 可以這樣寫，就會開啟所有endpoints(不包含shutdown)
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+# 也可以這樣寫，就只會開啟指定的endpoint，因此此處只會再額外開啟/actuator/beans和/actuator/mappings
+#management.endpoints.web.exposure.include=beans,mappings
+
+# exclude可以用來關閉某些endpoints
+# exclude通常會跟include一起用，就是先include了全部，然後再exclude /actuator/beans這個endpoint
+#management.endpoints.web.exposure.exclude=beans
+#management.endpoints.web.exposure.include=*
+
+# 如果要開啟/actuator/shutdown，要額外再加這一行
+  endpoint:
+    shutdown:
+      enabled: true
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5444
+    username: username
+    password: password
+  jpa:
+    show-sql: true
+    database: postgresql
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQL9Dialect
+      temp:
+        use_jdbc_metadata_defaults: false      
